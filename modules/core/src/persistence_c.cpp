@@ -1,3 +1,6 @@
+// this patched file contains a fix for the lack of support for escape characters
+// https://github.com/opencv/opencv_contrib/issues/1131
+
 // This file is part of OpenCV project.
 // It is subject to the license terms in the LICENSE file found in the top-level directory
 // of this distribution and at http://opencv.org/license.html
@@ -38,6 +41,11 @@ static std::vector<std::string> analyze_file_name( std::string const & file_name
 
     size_t beg = file_name.find_last_of(parameter_begin);
     size_t end = file_name.size();
+#ifdef _WIN32
+    static const char* begin_unc_path = "\\\\?\\";
+    if (file_name.find(begin_unc_path) == 0 && beg < strlen(begin_unc_path))
+        beg = std::string::npos;
+#endif
     result.push_back(file_name.substr(0U, beg));
 
     if ( beg != std::string::npos )
