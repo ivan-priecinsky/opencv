@@ -14,6 +14,17 @@ FATAL: In-source builds are not allowed.
 ")
 endif()
 
+if (IOS)
+  if(AARCH64)
+    set(CMAKE_C_SIZEOF_DATA_PTR 8)
+    set(CMAKE_CXX_SIZEOF_DATA_PTR 8)
+  else()
+    set(CMAKE_C_SIZEOF_DATA_PTR 4)
+    set(CMAKE_CXX_SIZEOF_DATA_PTR 4)
+  endif()
+  add_definitions(-DHAVE_PTHREAD)
+endif()
+
 
 include(cmake/OpenCVMinDepVersions.cmake)
 
