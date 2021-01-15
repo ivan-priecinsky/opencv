@@ -181,6 +181,18 @@ if(OpenCV_LIB_PATH AND EXISTS "${OpenCV_LIB_PATH}/OpenCVConfig.cmake")
           IMPORTED_LOCATION_RELEASE ${OpenCV_LIB_PATH}/${lib_name}${version_suffix}.lib
       )
     endforeach()
+
+    # Adding zlib library
+    add_library(3rdparty::opencv::zlib STATIC IMPORTED)
+      set_property(TARGET 3rdparty::opencv
+        APPEND PROPERTY
+        INTERFACE_LINK_LIBRARIES 3rdparty::opencv::zlib
+    )
+    set_target_properties(3rdparty::opencv::zlib
+      PROPERTIES
+        IMPORTED_LOCATION_DEBUG ${OpenCV_LIB_PATH}/zlibd.lib
+        IMPORTED_LOCATION_RELEASE ${OpenCV_LIB_PATH}/zlib.lib
+    )
   endif()
 else()
   if(NOT OpenCV_FIND_QUIETLY)
