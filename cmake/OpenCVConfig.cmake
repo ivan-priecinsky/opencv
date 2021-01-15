@@ -161,6 +161,27 @@ if(OpenCV_LIB_PATH AND EXISTS "${OpenCV_LIB_PATH}/OpenCVConfig.cmake")
       endif()
     endif()
   endif()
+
+  if(OpenCV_FOUND AND NOT (TARGET 3rdparty::opencv))
+    add_library(3rdparty::opencv INTERFACE IMPORTED)
+    set_target_properties(3rdparty::opencv
+      PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES "${OpenCV_INCLUDE_DIRS}"
+    )
+    set(version_suffix "${OpenCV_VERSION_MAJOR}${OpenCV_VERSION_MINOR}${OpenCV_VERSION_PATCH}")
+    foreach(lib_name ${OpenCV_LIBS})
+      add_library(3rdparty::opencv::${lib_name} STATIC IMPORTED)
+      set_property(TARGET 3rdparty::opencv
+        APPEND PROPERTY
+          INTERFACE_LINK_LIBRARIES 3rdparty::opencv::${lib_name}
+      )
+      set_target_properties(3rdparty::opencv::${lib_name}
+        PROPERTIES
+          IMPORTED_LOCATION_DEBUG ${OpenCV_LIB_PATH}/${lib_name}${version_suffix}d.lib
+          IMPORTED_LOCATION_RELEASE ${OpenCV_LIB_PATH}/${lib_name}${version_suffix}.lib
+      )
+    endforeach()
+  endif()
 else()
   if(NOT OpenCV_FIND_QUIETLY)
     message(WARNING
