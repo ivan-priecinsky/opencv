@@ -47,6 +47,10 @@
 #include "cap_ffmpeg_api.hpp"
 #endif
 
+#ifdef UNDER_CE
+  #include <winceadapter_winbase.h>
+#endif
+
 static CvCreateFileCapture_Plugin icvCreateFileCapture_FFMPEG_p = 0;
 static CvReleaseCapture_Plugin icvReleaseCapture_FFMPEG_p = 0;
 static CvGrabFrame_Plugin icvGrabFrame_FFMPEG_p = 0;
@@ -102,11 +106,35 @@ private:
         #endif
             ".dll";
 
+#ifdef UNDER_CE
+        icvFFOpenCV = LoadLibraryA( module_name );
+#else
         icvFFOpenCV = LoadLibrary( module_name );
+#endif
     # endif
 
         if( icvFFOpenCV )
         {
+#ifdef UNDER_CE
+            icvCreateFileCapture_FFMPEG_p =
+                (CvCreateFileCapture_Plugin)GetProcAddressA(icvFFOpenCV, "cvCreateFileCapture_FFMPEG");
+            icvReleaseCapture_FFMPEG_p =
+                (CvReleaseCapture_Plugin)GetProcAddressA(icvFFOpenCV, "cvReleaseCapture_FFMPEG");
+            icvGrabFrame_FFMPEG_p =
+                (CvGrabFrame_Plugin)GetProcAddressA(icvFFOpenCV, "cvGrabFrame_FFMPEG");
+            icvRetrieveFrame_FFMPEG_p =
+                (CvRetrieveFrame_Plugin)GetProcAddressA(icvFFOpenCV, "cvRetrieveFrame_FFMPEG");
+            icvSetCaptureProperty_FFMPEG_p =
+                (CvSetCaptureProperty_Plugin)GetProcAddressA(icvFFOpenCV, "cvSetCaptureProperty_FFMPEG");
+            icvGetCaptureProperty_FFMPEG_p =
+                (CvGetCaptureProperty_Plugin)GetProcAddressA(icvFFOpenCV, "cvGetCaptureProperty_FFMPEG");
+            icvCreateVideoWriter_FFMPEG_p =
+                (CvCreateVideoWriter_Plugin)GetProcAddressA(icvFFOpenCV, "cvCreateVideoWriter_FFMPEG");
+            icvReleaseVideoWriter_FFMPEG_p =
+                (CvReleaseVideoWriter_Plugin)GetProcAddressA(icvFFOpenCV, "cvReleaseVideoWriter_FFMPEG");
+            icvWriteFrame_FFMPEG_p =
+                (CvWriteFrame_Plugin)GetProcAddressA(icvFFOpenCV, "cvWriteFrame_FFMPEG");
+#else
             icvCreateFileCapture_FFMPEG_p =
                 (CvCreateFileCapture_Plugin)GetProcAddress(icvFFOpenCV, "cvCreateFileCapture_FFMPEG");
             icvReleaseCapture_FFMPEG_p =
@@ -125,7 +153,7 @@ private:
                 (CvReleaseVideoWriter_Plugin)GetProcAddress(icvFFOpenCV, "cvReleaseVideoWriter_FFMPEG");
             icvWriteFrame_FFMPEG_p =
                 (CvWriteFrame_Plugin)GetProcAddress(icvFFOpenCV, "cvWriteFrame_FFMPEG");
-
+#endif
 #if 0
             if( icvCreateFileCapture_FFMPEG_p != 0 &&
                 icvReleaseCapture_FFMPEG_p != 0 &&

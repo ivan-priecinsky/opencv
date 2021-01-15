@@ -43,6 +43,9 @@
 #include <ImfStdIO.h>
 #include "Iex.h"
 #include <errno.h>
+#ifdef UNDER_CE
+  #include <winceadapter_errno.h>
+#endif
 
 using namespace std;
 

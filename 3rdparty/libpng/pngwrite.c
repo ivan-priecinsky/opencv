@@ -15,6 +15,10 @@
 #if defined(PNG_SIMPLIFIED_WRITE_SUPPORTED) && defined(PNG_STDIO_SUPPORTED)
 #  include <errno.h>
 #endif
+#ifdef UNDER_CE
+  #include <winceadapter_time.h>
+  #include <winceadapter_errno.h>
+#endif
 
 #ifdef PNG_WRITE_SUPPORTED
 

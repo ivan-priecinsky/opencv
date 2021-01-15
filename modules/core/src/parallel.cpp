@@ -41,6 +41,9 @@
 //M*/
 
 #include "precomp.hpp"
+#ifdef UNDER_CE
+  #include <winceadapter_winbase.h>
+#endif
 
 #if defined WIN32 || defined WINCE
     #include <windows.h>

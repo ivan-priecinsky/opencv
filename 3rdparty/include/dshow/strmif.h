@@ -2261,19 +2261,21 @@ typedef LONGLONG REFERENCE_TIME;
 #define ADVISE_ALL (ADVISE_CLIPPING | ADVISE_PALETTE | ADVISE_COLORKEY | ADVISE_POSITION)
 #define ADVISE_ALL2 (ADVISE_ALL | ADVISE_DISPLAY_CHANGE)
 
-#ifndef _WINGDI_
-  typedef struct _RGNDATAHEADER {
-    DWORD dwSize;
-    DWORD iType;
-    DWORD nCount;
-    DWORD nRgnSize;
-    RECT rcBound;
-  } RGNDATAHEADER;
+#ifndef UNDER_CE
+  #ifndef _WINGDI_
+    typedef struct _RGNDATAHEADER {
+      DWORD dwSize;
+      DWORD iType;
+      DWORD nCount;
+      DWORD nRgnSize;
+      RECT rcBound;
+    } RGNDATAHEADER;
 
-  typedef struct _RGNDATA {
-    RGNDATAHEADER rdh;
-    char Buffer[1];
-  } RGNDATA;
+    typedef struct _RGNDATA {
+      RGNDATAHEADER rdh;
+      char Buffer[1];
+    } RGNDATA;
+  #endif
 #endif
 
   extern RPC_IF_HANDLE __MIDL_itf_strmif_0142_v0_0_c_ifspec;

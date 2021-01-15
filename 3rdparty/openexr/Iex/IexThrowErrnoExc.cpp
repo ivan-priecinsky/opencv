@@ -45,6 +45,10 @@
 #include "IexErrnoExc.h"
 #include <string.h>
 #include <errno.h>
+#ifdef UNDER_CE
+  #include <winceadapter_errno.h>
+  #include <winceadapter_string.h>
+#endif
 
 namespace Iex {
 

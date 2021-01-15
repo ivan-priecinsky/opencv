@@ -24,7 +24,11 @@
 #define WEBP_INLINE inline
 #endif
 #else
-typedef signed   char int8_t;
+#ifdef UNDER_CE
+  typedef __int8  int8_t;
+#else
+  typedef signed   char int8_t;
+#endif
 typedef unsigned char uint8_t;
 typedef signed   short int16_t;
 typedef unsigned short uint16_t;

@@ -18,6 +18,10 @@
 #if defined(PNG_SIMPLIFIED_READ_SUPPORTED) && defined(PNG_STDIO_SUPPORTED)
 #  include <errno.h>
 #endif
+#ifdef UNDER_CE
+  #include <winceadapter_string.h>
+  #include <winceadapter_errno.h>
+#endif
 
 #ifdef PNG_READ_SUPPORTED
 

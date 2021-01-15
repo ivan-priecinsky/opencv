@@ -49,6 +49,11 @@ The references are:
 #ifdef __cplusplus
 
 #include "precomp.hpp"
+
+#if (defined WIN32 || defined _WIN32) && defined(_M_ARM)
+  #include "arm_neon.h"
+#endif
+
 namespace cv
 {
 

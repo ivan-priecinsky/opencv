@@ -47,10 +47,6 @@ typedef unsigned __int64 uint64_t;
 # include <Intrin.h>
 #endif
 
-#ifdef __ARM_NEON__
-# include "arm_neon.h"
-#endif
-
 namespace cvflann
 {
 

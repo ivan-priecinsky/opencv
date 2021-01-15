@@ -43,6 +43,9 @@
 #include "precomp.hpp"
 #include "opencv2/videostab/stabilizer.hpp"
 #include "opencv2/videostab/ring_buffer.hpp"
+#ifdef UNDER_CE
+  #include <winceadapter_time.h>
+#endif
 
 // for debug purposes
 #define SAVE_MOTIONS 0

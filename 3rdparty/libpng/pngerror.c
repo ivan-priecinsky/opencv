@@ -17,6 +17,9 @@
  */
 
 #include "pngpriv.h"
+#ifdef UNDER_CE
+  #include <winceadapter_stdlib.h>
+#endif
 
 #if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
 

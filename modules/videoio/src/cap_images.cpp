@@ -51,6 +51,9 @@
 
 #include "precomp.hpp"
 #include <sys/stat.h>
+#ifdef UNDER_CE
+  #include <winceadapter_string.h>
+#endif
 
 #ifdef NDEBUG
 #define CV_WARN(message)

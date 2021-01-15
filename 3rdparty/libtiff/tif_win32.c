@@ -224,7 +224,25 @@ TIFFFdOpen(int ifd, const char* name, const char* mode)
     return (tif);
 }
 
-#ifndef _WIN32_WCE
+#ifdef UNDER_CE
+void convertAsciiToWChar(wchar_t* pWChar, const char* pChar, unsigned int uiLength)
+{
+    if (uiLength > 0)
+    {
+        int iResult = MultiByteToWideChar(CP_ACP, 0, pChar, -1, pWChar, uiLength);
+        if (iResult == 0)
+        {
+            // Receiving buffer pWChar is too small!!!!
+            //ERR_ASSERT(false);
+        }
+
+        // Ensure terminating zero.
+        pWChar[uiLength - 1] = L'\0';
+    }
+}
+#endif
+
+#if !defined _WIN32_WCE || defined UNDER_CE
 
 /*
  * Open a TIFF file for read/writing.
@@ -237,6 +255,9 @@ TIFFOpen(const char* name, const char* mode)
     int m;
     DWORD dwMode;
     TIFF* tif;
+#ifdef UNDER_CE
+    wchar_t     wszFileName[MAX_PATH];
+#endif
 
     m = _TIFFgetMode(mode, module);
 
@@ -249,7 +270,13 @@ TIFFOpen(const char* name, const char* mode)
         default:			return ((TIFF*)0);
     }
 
+#ifdef UNDER_CE
+    convertAsciiToWChar(wszFileName, name, sizeof(wszFileName) / sizeof(wchar_t));
+
+    fd = (thandle_t)CreateFileW(wszFileName,
+#else
     fd = (thandle_t)CreateFileA(name,
+#endif
         (m == O_RDONLY)?GENERIC_READ:(GENERIC_READ | GENERIC_WRITE),
         FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, dwMode,
         (m == O_RDONLY)?FILE_ATTRIBUTE_READONLY:FILE_ATTRIBUTE_NORMAL,
@@ -362,7 +389,7 @@ _TIFFmemcmp(const void* p1, const void* p2, tmsize_t c)
     return (memcmp(p1, p2, (size_t) c));
 }
 
-#ifndef _WIN32_WCE
+#if !defined _WIN32_WCE || defined UNDER_CE
 
 #if (_MSC_VER < 1500)
 #  define vsnprintf _vsnprintf
@@ -371,7 +398,7 @@ _TIFFmemcmp(const void* p1, const void* p2, tmsize_t c)
 static void
 Win32WarningHandler(const char* module, const char* fmt, va_list ap)
 {
-#ifndef TIF_PLATFORM_CONSOLE
+#if !defined TIF_PLATFORM_CONSOLE && !defined UNDER_CE
     LPTSTR szTitle;
     LPTSTR szTmp;
     LPCTSTR szTitleText = "%s Warning";
@@ -402,7 +429,7 @@ TIFFErrorHandler _TIFFwarningHandler = Win32WarningHandler;
 static void
 Win32ErrorHandler(const char* module, const char* fmt, va_list ap)
 {
-#ifndef TIF_PLATFORM_CONSOLE
+#if !defined TIF_PLATFORM_CONSOLE && !defined UNDER_CE
     LPTSTR szTitle;
     LPTSTR szTmp;
     LPCTSTR szTitleText = "%s Error";

@@ -72,6 +72,9 @@
 \******************************************************************************/
 
 #include <assert.h>
+#ifdef UNDER_CE
+  #include "jasper/jas_config2.h"
+#endif
 #if defined(HAVE_FCNTL_H)
 #include <fcntl.h>
 #endif

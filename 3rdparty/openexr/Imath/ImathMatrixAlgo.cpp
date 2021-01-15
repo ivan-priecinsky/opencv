@@ -45,6 +45,9 @@
 #include "ImathMatrixAlgo.h"
 #include <cmath>
 #include <algorithm> // for std::max()
+#ifdef UNDER_CE
+  #include <winceadapter_cstdlib>
+#endif
 
 #if defined(OPENEXR_DLL)
     #define EXPORT_CONST __declspec(dllexport)

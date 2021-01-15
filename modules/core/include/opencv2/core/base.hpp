@@ -54,6 +54,9 @@
 
 #include "opencv2/core/cvdef.h"
 #include "opencv2/core/cvstd.hpp"
+#ifdef UNDER_CE
+  #include <winceadapter_cstdlib>
+#endif
 
 namespace cv
 {

@@ -5,6 +5,10 @@
 #ifndef JAS_CONFIG_H
 #define JAS_CONFIG_H
 
+#ifdef UNDER_CE
+  #include <winceadapter_stdlib.h>
+#endif
+
 /* This preprocessor symbol identifies the version of JasPer. */
 #undef	JAS_VERSION
 /* If configure is being used, this symbol will be defined automatically

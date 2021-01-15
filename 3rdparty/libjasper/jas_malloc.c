@@ -78,6 +78,9 @@
 #include <string.h>
 #include <limits.h>
 #include <errno.h>
+#ifdef UNDER_CE
+  #include <winceadapter_errno.h>
+#endif
 #if !defined _WIN32 || defined __MINGW__ || defined __MINGW32__
 #include <stdint.h>
 #endif

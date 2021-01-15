@@ -83,6 +83,9 @@
 #include "ImathPlatform.h"
 #include "ImathLimits.h"
 #include <math.h>
+#ifdef UNDER_CE
+  #include <cmath>
+#endif
 
 namespace Imath {
 

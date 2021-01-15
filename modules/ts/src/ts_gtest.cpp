@@ -113,7 +113,10 @@
 
 #ifndef GTEST_INCLUDE_GTEST_GTEST_SPI_H_
 #define GTEST_INCLUDE_GTEST_GTEST_SPI_H_
-
+#ifdef UNDER_CE
+  #include <io.h>
+  #include <boost-winceadapter_time.h>
+#endif
 
 namespace testing {
 

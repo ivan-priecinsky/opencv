@@ -48,6 +48,9 @@
 #undef min
 #undef max
 #include <iostream>
+#ifdef UNDER_CE
+  #include <io.h>
+#endif
 
 /****************************************************************************************\
 *                                      Image Codecs                                      *

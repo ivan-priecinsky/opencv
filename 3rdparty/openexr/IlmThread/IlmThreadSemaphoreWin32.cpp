@@ -53,6 +53,33 @@ namespace {
 std::string
 errorString ()
 {
+#ifdef UNDER_CE
+    LPWSTR messageBuffer;
+    DWORD bufferLength;
+    std::string message;
+
+    //
+    // Call FormatMessage() to allow for message
+    // text to be acquired from the system.
+    //
+
+    if (bufferLength = FormatMessageW (FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                       FORMAT_MESSAGE_IGNORE_INSERTS |
+                       FORMAT_MESSAGE_FROM_SYSTEM,
+                       0,
+                       GetLastError (),
+                       MAKELANGID (LANG_NEUTRAL,
+                                   SUBLANG_DEFAULT),
+                       (LPWSTR) &messageBuffer,
+                       0,
+                       NULL))
+    {
+        char aname[MAX_PATH];
+        size_t copied = wcstombs(aname, messageBuffer, MAX_PATH);
+        message = std::string(aname);
+        LocalFree (messageBuffer);
+    }
+#else
     LPSTR messageBuffer;
     DWORD bufferLength;
     std::string message;
@@ -76,6 +103,7 @@ errorString ()
     message = messageBuffer;
         LocalFree (messageBuffer);
     }
+#endif
 
     return message;
 }

@@ -70,28 +70,33 @@
  * normally defined by configure.
  */
 
-#define	uchar		unsigned char
-#define	ushort		unsigned short
-#define	uint		unsigned int
-#define	ulong		unsigned long
-#define	longlong	long long
-#define	ulonglong	unsigned long long
+#ifndef UNDER_CE
+  #define	uchar		unsigned char
+  #define	ushort		unsigned short
+  #define	uint		unsigned int
+  #define	ulong		unsigned long
+#endif
+  #define	longlong	long long
+  #define	ulonglong	unsigned long long
 /*#define	ssize_t		int*/
 
-#define	HAVE_FCNTL_H		1
-#define	HAVE_LIMITS_H		1
-#define	HAVE_IO_H		1
-#define	HAVE_WINDOWS_H		1
-#define	HAVE_SYS_TYPES_H	1
-#define	HAVE_STDLIB_H		1
-#define	HAVE_STDDEF_H		1
+  #ifndef UNDER_CE
+    #define	HAVE_FCNTL_H		1
+  #endif
 
-#define EXCLUDE_JPG_SUPPORT     1
-#define EXCLUDE_MIF_SUPPORT     1
-#define EXCLUDE_PNM_SUPPORT     1
-#define EXCLUDE_PNM_SUPPORT     1
-#define EXCLUDE_RAS_SUPPORT     1
-#define EXCLUDE_BMP_SUPPORT     1
-#define EXCLUDE_PGX_SUPPORT     1
+  #define	HAVE_LIMITS_H		1
+  #define	HAVE_IO_H		1
+  #define	HAVE_WINDOWS_H		1
+  #define	HAVE_SYS_TYPES_H	1
+  #define	HAVE_STDLIB_H		1
+  #define	HAVE_STDDEF_H		1
+  
+  #define EXCLUDE_JPG_SUPPORT     1
+  #define EXCLUDE_MIF_SUPPORT     1
+  #define EXCLUDE_PNM_SUPPORT     1
+  #define EXCLUDE_PNM_SUPPORT     1
+  #define EXCLUDE_RAS_SUPPORT     1
+  #define EXCLUDE_BMP_SUPPORT     1
+  #define EXCLUDE_PGX_SUPPORT     1
 
 #endif

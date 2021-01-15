@@ -739,16 +739,26 @@ static void* initOpenCLAndLoad(const char* funcname)
 #ifndef WINRT
         if(!initialized)
         {
+#ifdef UNDER_CE
+            handle = LoadLibraryW(L"OpenCL.dll");
+            initialized = true;
+            g_haveOpenCL = handle != 0 && GetProcAddressA(handle, oclFuncToCheck) != 0;
+#else
             handle = LoadLibraryA("OpenCL.dll");
             initialized = true;
             g_haveOpenCL = handle != 0 && GetProcAddress(handle, oclFuncToCheck) != 0;
+#endif
         }
 #endif
         if(!handle)
             return 0;
     }
 
+#ifdef UNDER_CE
+    return funcname ? (void*)GetProcAddressA(handle, funcname) : 0;
+#else
     return funcname ? (void*)GetProcAddress(handle, funcname) : 0;
+#endif
 }
 
 #elif defined(__linux)
@@ -2239,7 +2249,7 @@ static bool parseOpenCLDeviceConfiguration(const std::string& configurationStr,
     return true;
 }
 
-#ifdef WINRT
+#if defined WINRT || defined UNDER_CE
 static cl_device_id selectOpenCLDevice()
 {
     return NULL;

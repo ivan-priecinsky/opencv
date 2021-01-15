@@ -45,7 +45,10 @@
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdlib.h>
-#include <fcntl.h>
+#ifndef UNDER_CE
+  #include <fcntl.h>
+#endif
+
 #include <time.h>
 #if defined WIN32 || defined _WIN32 || defined WIN64 || defined _WIN64
 #include <io.h>
@@ -56,7 +59,7 @@
 #undef max
 #undef abs
 
-#ifdef _MSC_VER
+#if defined _MSC_VER && !defined UNDER_CE
 #include <eh.h>
 #endif
 
@@ -469,7 +472,7 @@ void TS::init( const string& modulename )
     if( ::testing::GTEST_FLAG(catch_exceptions) )
     {
 #if defined WIN32 || defined _WIN32
-#ifdef _MSC_VER
+#if defined _MSC_VER && !defined UNDER_CE
         _set_se_translator( SEHTranslator );
 #endif
 #else
@@ -480,7 +483,7 @@ void TS::init( const string& modulename )
     else
     {
 #if defined WIN32 || defined _WIN32
-#ifdef _MSC_VER
+#if defined _MSC_VER && !defined UNDER_CE
         _set_se_translator( 0 );
 #endif
 #else

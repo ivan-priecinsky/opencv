@@ -41,7 +41,8 @@
 
 #include "precomp.hpp"
 #include <deque>
-#include <stdint.h>
+
+#include "opencv2/core/cv_stdint.h"
 
 namespace cv
 {
@@ -790,7 +791,11 @@ std::vector<char> MotionJpegCapture::readFrame(frame_iterator it)
     result.reserve(chunk.m_size);
     result.resize(chunk.m_size);
 
+#if !defined(UNDER_CE) && (defined(ANDROID) || _MSC_VER >= 1600)
     m_file_stream.read(result.data(), chunk.m_size);
+#else
+    m_file_stream.read(&result.front(), chunk.m_size);
+#endif
 
     return result;
 }

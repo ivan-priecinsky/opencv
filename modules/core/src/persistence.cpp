@@ -45,6 +45,9 @@
 #include <ctype.h>
 #include <deque>
 #include <iterator>
+#ifdef UNDER_CE
+  #include <io.h>
+#endif
 
 #define USE_ZLIB 1
 

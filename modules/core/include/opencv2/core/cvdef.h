@@ -215,11 +215,13 @@ enum CpuFeatures {
 
 #if (defined WIN32 || defined _WIN32) && defined(_M_ARM)
 # include <Intrin.h>
-# include "arm_neon.h"
-# define CV_NEON 1
+# ifdef UNDER_CE
+#  define CV_NEON 0
+# else
+#  define CV_NEON 1
+# endif
 # define CPU_HAS_NEON_FEATURE (true)
 #elif defined(__ARM_NEON__) || (defined (__ARM_NEON) && defined(__aarch64__))
-#  include <arm_neon.h>
 #  define CV_NEON 1
 #endif
 
@@ -471,7 +473,12 @@ Cv64suf;
 #  endif
 #elif defined _MSC_VER && !defined RC_INVOKED
 #  include <intrin.h>
-#  define CV_XADD(addr, delta) (int)_InterlockedExchangeAdd((long volatile*)addr, delta)
+#  ifdef UNDER_CE
+#    include <winbase.h>
+#    define CV_XADD(addr, delta) (int)InterlockedExchangeAdd((long volatile*)addr, delta)
+#  else
+#    define CV_XADD(addr, delta) (int)_InterlockedExchangeAdd((long volatile*)addr, delta)
+#  endif
 #else
    CV_INLINE CV_XADD(int* addr, int delta) { int tmp = *addr; *addr += delta; return tmp; }
 #endif

@@ -48,7 +48,7 @@
 #include <map>
 #include <utility>
 #include <algorithm>
-#include <stdint.h>
+#include "opencv2/core/cv_stdint.h"
 #include <string>
 #include <vector>
 

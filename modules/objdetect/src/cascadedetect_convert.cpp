@@ -43,6 +43,9 @@
 
 #include "precomp.hpp"
 #include <stdio.h>
+#ifdef UNDER_CE
+  #include <io.h>
+#endif
 
 namespace cv
 {

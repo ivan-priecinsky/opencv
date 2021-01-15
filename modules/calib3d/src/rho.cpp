@@ -48,7 +48,7 @@
 #include <opencv2/core.hpp>
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdint.h>
+#include "opencv2/core/cv_stdint.h"
 #include <string.h>
 #include <stddef.h>
 #include <limits.h>

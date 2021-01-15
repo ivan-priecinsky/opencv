@@ -561,6 +561,26 @@ String tempfile( const char* suffix )
     CV_Assert((copied != MAX_PATH) && (copied != (size_t)-1));
     fname = String(aname);
     RoUninitialize();
+#elif defined UNDER_CE
+    wchar_t temp_dir2[MAX_PATH] = { 0 };
+    wchar_t temp_file[MAX_PATH] = { 0 };
+
+    if (temp_dir == 0 || temp_dir[0] == 0)
+    {
+        ::GetTempPathW(sizeof(temp_dir2), temp_dir2);
+        //       temp_dir = temp_dir2;
+    }
+    if(0 == ::GetTempFileNameW(temp_dir2, L"ocv", 0, temp_file))
+    {
+        return String();
+    }
+
+    DeleteFileW(temp_file);
+
+    char aname[MAX_PATH];
+    size_t copied = wcstombs(aname, temp_file, MAX_PATH);
+    CV_Assert((copied != MAX_PATH) && (copied != (size_t)-1));
+    fname = String(aname);
 #else
     char temp_dir2[MAX_PATH] = { 0 };
     char temp_file[MAX_PATH] = { 0 };
