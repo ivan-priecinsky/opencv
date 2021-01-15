@@ -220,6 +220,8 @@ OCV_OPTION(WITH_GPHOTO2        "Include gPhoto2 library support"             ON 
 # ===================================================
 OCV_OPTION(BUILD_SHARED_LIBS        "Build shared libraries (.dll/.so) instead of static ones (.lib/.a)" NOT (ANDROID OR APPLE_FRAMEWORK) )
 OCV_OPTION(BUILD_opencv_apps        "Build utility applications (used for example to train classifiers)" (NOT ANDROID AND NOT WINRT) IF (NOT APPLE_FRAMEWORK) )
+OCV_OPTION(BUILD_opencv_doc         "Generate targets for documentation" OFF )
+OCV_OPTION(BUILD_opencv_data        "Various data that is used by cv libraries and/or demo applications" OFF )
 OCV_OPTION(BUILD_ANDROID_EXAMPLES   "Build examples for Android platform"         ON  IF ANDROID )
 OCV_OPTION(BUILD_DOCS               "Create build rules for OpenCV Documentation" ON  IF (NOT WINRT OR APPLE_FRAMEWORK))
 OCV_OPTION(BUILD_EXAMPLES           "Build all examples"                          OFF )
@@ -659,10 +661,14 @@ add_subdirectory(include)
 add_subdirectory(modules)
 
 # Generate targets for documentation
-add_subdirectory(doc)
+if(BUILD_opencv_doc)
+  add_subdirectory(doc)
+endif()
 
 # various data that is used by cv libraries and/or demo applications.
-add_subdirectory(data)
+if(BUILD_opencv_data)
+  add_subdirectory(data)
+endif()
 
 # extra applications
 if(BUILD_opencv_apps)
